@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
 import morgan from 'morgan';
 import ws from 'ws';
 import http from 'http';
@@ -28,7 +28,7 @@ control(io, webSocket);
 app.use(router);
 
 server.listen(3000, () => {
-    console.log('server on port 3000');
+    console.log('server running on http://localhost:3000');
 });
 
 export {
