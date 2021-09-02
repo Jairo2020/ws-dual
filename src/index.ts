@@ -1,8 +1,11 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import morgan from 'morgan';
 import ws from 'ws';
 import http from 'http';
 import socketIo from 'socket.io';
+
+import router from './router/routes';
+import control from './router/ws-control';
 
 // Aplicación de express
 const app = express();
@@ -20,22 +23,15 @@ const io = new socketIo.Server(server, {
     allowEIO3: true
 });
 
-io.on('connection', socket => {
-    console.log(socket.id);
-    socket.on('message', data => {
-        console.log(data);
-        socket.emit('data', { message: 'recivido', name: data.name });
-    });
-});
+control(io, webSocket);
 
-webSocket.on('connection', (socket, req) => {
-    socket.on('message', (results: any) => {
-        const data = JSON.parse(results.toString());
-        console.log(data);
-        socket.emit('data', { message: 'recivido', name: data.age });
-    });
-});
+app.use(router);
 
 server.listen(3000, () => {
     console.log('server on port 3000');
 });
+
+export {
+    webSocket,
+    io
+}
