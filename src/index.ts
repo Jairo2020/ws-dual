@@ -8,9 +8,11 @@ import socketIo from 'socket.io';
 const app = express();
 // Middlewares
 app.use(morgan('dev'));
-// Server http para socket.io
+// Server http
 const server = new http.Server(app);
-const webSocket = new ws.Server({ noServer: true });
+// Ws configuración
+const webSocket = new ws.Server({ server, path:'/api/v1/ws' });
+
 const io = new socketIo.Server(server, {
     cors: {
         origin: '*'
@@ -24,25 +26,16 @@ io.on('connection', socket => {
         console.log(data);
         socket.emit('data', { message: 'recivido', name: data.name });
     });
-})
+});
 
-webSocket.on('connection', socket => {
+webSocket.on('connection', (socket, req) => {
     socket.on('message', (results: any) => {
         const data = JSON.parse(results.toString());
         console.log(data);
-    })
-})
+        socket.emit('data', { message: 'recivido', name: data.age });
+    });
+});
 
 server.listen(3000, () => {
     console.log('server on port 3000');
-}).on('upgrade', (request: http.IncomingMessage, socket: any, head: Buffer): void => {
-    const pathname = request.url;
-    if (pathname === '/api/v1/ws') {
-        webSocket.handleUpgrade(request, socket, head, socket => {
-            socket.setMaxListeners(500);
-            webSocket.emit('connection', socket, request);
-        });
-    } else {
-        socket.destroy();
-    }
 });
