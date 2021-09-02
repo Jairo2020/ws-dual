@@ -1,0 +1,39 @@
+{
+  "name": "ws-dual",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node dist/index.js",
+    "watch-node": "nodemon dist/index.js",
+    "watch-ts": "tsc -w"
+  },
+  "keywords": [
+    "ws",
+    "websocket",
+    "server",
+    "ts"
+  ],
+  "author": "Jairo Rohatan Zapata",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^4.2.0",
+    "ws": "^8.2.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@types/morgan": "^1.9.3",
+    "@types/ws": "^7.4.7",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.12"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jairo2020/ws-dual.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Jairo2020/ws-dual/issues"
+  },
+  "homepage": "https://github.com/Jairo2020/ws-dual#readme",
+  "description": ""
+}
