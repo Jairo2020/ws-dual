@@ -19,7 +19,9 @@ const control = (ws: socketIo.Server<DefaultEventsMap>, websocket:ws.Server) => 
         socket.on('message', (results: any) => {
             const data = JSON.parse(results.toString());
             console.log(data);
-            socket.emit('data', { message: 'recivido', name: data.age });
+            // socket.emit('message', { message: 'recivido', name: data.age });
+            // TODO:Se puede enviar hacia el cliente que estaba usando de esta forma. Solo que no tiene evento .
+            socket.send('{"data":"Hola desde el sevidor"}');
         });
     });
 
