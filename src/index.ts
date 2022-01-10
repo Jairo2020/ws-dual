@@ -1,37 +1,10 @@
-import express from 'express';
-import morgan from 'morgan';
-import ws from 'ws';
-import http from 'http';
-import socketIo from 'socket.io';
+import Server from './settings/server';
 
-import router from './router/routes';
-import control from './router/ws-control';
+const server = new Server();
 
-// Aplicación de express
-const app = express();
-// Middlewares
-app.use(morgan('dev'));
-// Server http
-const server = new http.Server(app);
-// Ws configuración
-const webSocket = new ws.Server({ server, path:'/api/v1/ws' });
+server.Start();
 
-const io = new socketIo.Server(server, {
-    cors: {
-        origin: '*'
-    },
-    allowEIO3: true
-});
-
-control(io, webSocket);
-
-app.use(router);
-
-server.listen(3000, () => {
-    console.log('server running on http://localhost:3000');
-});
-
-export {
-    webSocket,
-    io
-}
+export default {
+    io: server.io,
+    ws: server.ws
+};
